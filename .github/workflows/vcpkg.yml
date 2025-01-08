@@ -37,6 +37,8 @@ jobs:
           ./bootstrap-vcpkg.sh
           vcpkg integrate install
           vcpkg install curl:x64-windows-static
+          vcpkg install curl:x86-windows-static
+          # Move-Item -Path .\ -Destination C:\Logs
           #vcpkg install curl[brotli,c-ares,http2,ldap,non-http,openssl,tool,websockets,zstd]:x64-windows
           #vcpkg install curl[openssl]:x64-windows-static
     
@@ -46,3 +48,12 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./vcpkg/packages
         keep_files: true
+        publish_branch: x86-windows-static
+    
+    - name: Deploy2
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./vcpkg/installed/x86-windows-static
+        keep_files: true
+        publish_branch: x86
